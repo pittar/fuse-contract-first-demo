@@ -136,7 +136,7 @@
             <version>3.6.0</version>
             <configuration>
                 <className>CamelRoutes</className>
-                <packageName>com.redhat.fuse.boosters.rest.demo</packageName>
+                <packageName>com.redhat.fuse.boosters.rest.http.demo</packageName>
                 <outputDirectory>${project.basedir}/src/main/java</outputDirectory>      
             </configuration>
         </plugin>

@@ -1,11 +1,11 @@
 metadata:
-  name: fuse-workshop
+ generateName: fuse-openapi-
 projects:
-  - name: fuse-openapi-to-java
+  - name: fuse-contract-first-demo
     source:
-      location: 'https://github.com/pittar-workshops/fuse7-lab-openapi-to-java.git'
+      location: 'https://github.com/pittar/fuse-contract-first-demo.git'
       type: 'git'
-      branch: main
+      branch: master
 components:
   - id: redhat/java8/latest
     type: chePlugin
@@ -41,25 +41,25 @@ apiVersion: 1.0.0
 commands:
   - name: 0. Generate Java DSL from OpenAPI spec
     actions:
-      - workdir: '${CHE_PROJECTS_ROOT}/fuse-openapi-to-java'
+      - workdir: '${CHE_PROJECTS_ROOT}/fuse-contract-first-demo'
         type: exec
         command: MAVEN_OPTS='-Xmx200m' && mvn camel-restdsl-openapi:generate
         component: maven
   - name: 1. Build
     actions:
-      - workdir: '${CHE_PROJECTS_ROOT}/fuse-openapi-to-java'
+      - workdir: '${CHE_PROJECTS_ROOT}/fuse-contract-first-demo'
         type: exec
         command: MAVEN_OPTS='-Xmx200m' && mvn clean package
         component: maven
   - name: 2. Run
     actions:
-      - workdir: '${CHE_PROJECTS_ROOT}/fuse-openapi-to-java'
+      - workdir: '${CHE_PROJECTS_ROOT}/fuse-contract-first-demo'
         type: exec
         command: 'mvn spring-boot:run'
         component: maven
   - name: 3. Run in debug mode
     actions:
-      - workdir: '${CHE_PROJECTS_ROOT}/fuse-openapi-to-java'
+      - workdir: '${CHE_PROJECTS_ROOT}/fuse-contract-first-demo'
         type: exec
         command: >-
           mvn spring-boot:run -Drun.jvmArguments="-Xdebug
