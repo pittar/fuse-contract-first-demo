@@ -13,17 +13,6 @@ public class BookService {
     @Autowired
     private BookRepository bookRepository;
 
-    public Book newBook() {
-        Book aBook = new Book();
-        aBook.setIsbn("12345");
-        aBook.setTitle("It");
-        aBook.setAuthor("Stephen King");
-        aBook.setPublisher("Random House");
-        aBook.setGenre("Horror");
-        bookRepository.save(aBook);
-        return aBook;
-    }
-
     public Book findBookByISBN(String isbn) {
         return bookRepository.findById(isbn).get();
     }
