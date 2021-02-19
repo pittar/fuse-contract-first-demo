@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    openshift.io/description: Microcks - Live Microservice Mocks
+    openshift.io/display-name: Microcks
+  name: microcks

@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    openshift.io/description: Red Hat API Designer (Apicurito)
+    openshift.io/display-name: API Designer
+  name: api-designer

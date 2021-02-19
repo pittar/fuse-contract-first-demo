@@ -1,0 +1,82 @@
+metadata:
+  name: fuse-workshop
+projects:
+  - name: fuse-openapi-to-java
+    source:
+      location: 'https://github.com/pittar-workshops/fuse7-lab-openapi-to-java.git'
+      type: 'git'
+      branch: main
+components:
+  - id: redhat/java8/latest
+    type: chePlugin
+  - id: redhat/vscode-apache-camel/latest
+    type: chePlugin
+  - id: redhat/dependency-analytics/latest
+    type: chePlugin
+  - mountSources: true
+    endpoints:
+      - name: '8080'
+        port: 8080
+    memoryLimit: 768Mi
+    type: dockerimage
+    volumes:
+      - name: m2
+        containerPath: /home/jboss/.m2
+    image: >-
+      registry.redhat.io/codeready-workspaces/plugin-java8-rhel8@sha256:d04f70c8340abaee1a282b77158d054f4faf2225bc17c79aafb413396c367782
+    alias: maven
+    env:
+      - value: >-
+          -XX:MaxRAMPercentage=50.0 -XX:+UseParallelGC -XX:MinHeapFreeRatio=10
+          -XX:MaxHeapFreeRatio=20 -XX:GCTimeRatio=4
+          -XX:AdaptiveSizePolicyWeight=90 -Dsun.zip.disableMemoryMapping=true
+          -Xms20m -Djava.security.egd=file:/dev/./urandom
+          -Duser.home=/home/jboss
+        name: JAVA_OPTS
+      - value: $(JAVA_OPTS)
+        name: MAVEN_OPTS
+  - id: redhat/project-initializer/latest
+    type: chePlugin
+apiVersion: 1.0.0
+commands:
+  - name: 0. Generate Java DSL from OpenAPI spec
+    actions:
+      - workdir: '${CHE_PROJECTS_ROOT}/fuse-openapi-to-java'
+        type: exec
+        command: MAVEN_OPTS='-Xmx200m' && mvn camel-restdsl-openapi:generate
+        component: maven
+  - name: 1. Build
+    actions:
+      - workdir: '${CHE_PROJECTS_ROOT}/fuse-openapi-to-java'
+        type: exec
+        command: MAVEN_OPTS='-Xmx200m' && mvn clean package
+        component: maven
+  - name: 2. Run
+    actions:
+      - workdir: '${CHE_PROJECTS_ROOT}/fuse-openapi-to-java'
+        type: exec
+        command: 'mvn spring-boot:run'
+        component: maven
+  - name: 3. Run in debug mode
+    actions:
+      - workdir: '${CHE_PROJECTS_ROOT}/fuse-openapi-to-java'
+        type: exec
+        command: >-
+          mvn spring-boot:run -Drun.jvmArguments="-Xdebug
+          -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005"
+        component: maven
+  - name: Debug remote java application
+    actions:
+      - referenceContent: |
+          {
+          "version": "0.2.0",
+          "configurations": [
+            {
+              "type": "java",
+              "name": "Debug (Attach) - Remote",
+              "request": "attach",
+              "hostName": "localhost",
+              "port": 5005
+            }]
+          }
+        type: vscode-launch

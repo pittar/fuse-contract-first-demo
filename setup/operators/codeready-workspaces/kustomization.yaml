@@ -1,0 +1,11 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+# Namespace for the operator and instance.
+namespace: openshift-workspaces
+
+# Namespace and operator resources.
+resources:
+  - namespace.yaml
+  - codeready-workspaces-subscription.yaml
+  - codeready-workspaces-operatorgroup.yaml

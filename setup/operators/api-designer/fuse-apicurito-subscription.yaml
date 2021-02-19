@@ -1,0 +1,11 @@
+apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  name: fuse-apicurito
+spec:
+  channel: alpha
+  installPlanApproval: Automatic
+  name: fuse-apicurito
+  source: redhat-operators
+  sourceNamespace: openshift-marketplace
+  startingCSV: apicuritooperator.v7.8.0

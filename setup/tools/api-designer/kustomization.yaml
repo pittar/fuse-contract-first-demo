@@ -1,0 +1,9 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+# Namespace for the operator and instance.
+namespace: api-designer
+
+# Instance resources.
+resources:
+  - fuse-apicurito-instance.yaml
