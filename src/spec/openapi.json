@@ -1,7 +1,7 @@
 {
     "openapi": "3.0.2",
     "info": {
-        "title": "bookstore",
+        "title": "teststore",
         "version": "1.0.0",
         "description": "A brand new API with no content.  Go nuts!"
     },
@@ -26,7 +26,7 @@
             "get": {
                 "responses": {
                     "200": {
-                        "$ref": "#/components/responses/isbn"
+                        "$ref": "#/components/responses/book"
                     }
                 },
                 "operationId": "get_book_by_isbn",
@@ -100,13 +100,13 @@
                 "description": "Create a new order."
             }
         },
-        "/orders/{orderId}": {
+        "/orders/{id}": {
             "summary": "Operations on a specific order.",
             "description": "Get or update a specific order.",
             "get": {
                 "responses": {
                     "200": {
-                        "$ref": "#/components/responses/orderId"
+                        "$ref": "#/components/responses/order"
                     }
                 },
                 "operationId": "get_order_by_id",
@@ -144,7 +144,7 @@
                 },
                 "responses": {
                     "200": {
-                        "$ref": "#/components/responses/orderId"
+                        "$ref": "#/components/responses/order"
                     }
                 },
                 "operationId": "update_order",
@@ -153,11 +153,11 @@
             "parameters": [
                 {
                     "examples": {
-                        "orderId": {
+                        "id": {
                             "value": "1"
                         }
                     },
-                    "name": "orderId",
+                    "name": "id",
                     "description": "Order ID.",
                     "schema": {
                         "type": "integer"
@@ -359,54 +359,20 @@
                     }
                 },
                 "description": "A list of orders."
-            },
-            "isbn": {
-                "content": {
-                    "application/json": {
-                        "schema": {
-                            "$ref": "#/components/schemas/book"
-                        },
-                        "examples": {
-                            "isbn": {
-                                "value": {
-                                    "isbn": "123456",
-                                    "title": "Cujo",
-                                    "author": "Stephen King",
-                                    "publisher": "Scribner",
-                                    "genre": "Horror"
-                                }
-                            }
-                        }
-                    }
-                },
-                "description": "Book by ISBN."
-            },
-            "orderId": {
-                "content": {
-                    "application/json": {
-                        "schema": {
-                            "$ref": "#/components/schemas/order"
-                        },
-                        "examples": {
-                            "orderId": {
-                                "value": {
-                                    "items": [
-                                        {
-                                            "isbn": "123456",
-                                            "quantity": 1
-                                        },
-                                        {
-                                            "isbn": "345678",
-                                            "quantity": 1
-                                        }
-                                    ]
-                                }
-                            }
-                        }
-                    }
-                },
-                "description": "Order ID response."
+            }
+        },
+        "securitySchemes": {
+            "api-key": {
+                "type": "apiKey",
+                "description": "API Key",
+                "name": "user_key",
+                "in": "query"
             }
         }
-    }
+    },
+    "security": [
+        {
+            "api-key": []
+        }
+    ]
 }
