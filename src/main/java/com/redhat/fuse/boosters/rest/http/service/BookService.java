@@ -28,7 +28,7 @@ public class BookService {
         return bookRepository.findById(isbn).get();
     }
 
-    public Iterable<Book> getAllBooks() {
+    public Iterable<Book> findAllBooks() {
         return bookRepository.findAll();
     }
 
